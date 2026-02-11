@@ -1,0 +1,152 @@
+{
+  "laptops": [
+    {
+      "laptopId": 1,
+      "laptopSlug": "macbook-air-m1",
+      "laptopName": "MacBook Air M1  hjfgvk fjhvkh hvgfhui vjhgfv jhgerui fhergferihb",
+      "shortDescription": "Apple M1 | 8GB RAM | 256GB SSD | 13.3\" Retina Display",
+      "offerPrice": 99900,
+      "oldPrice": 127000,
+      "mainImage": "/images/17.webp",
+      "subImages": [
+        "/images/18.webp",
+        "/images/19.webp",
+        "/images/10.webp"
+      ],
+      "isNewArrival": false
+    },
+    {
+      "laptopId": 2,
+      "laptopSlug": "dell-latitude-5440",
+      "laptopName": "Dell Latitude 5440",
+      "shortDescription": "Intel i5 12th Gen | 16GB RAM | 512GB SSD | 14\" FHD",
+      "offerPrice": 221999,
+      "oldPrice": 265000,
+      "mainImage": "/images/18.webp",
+      "subImages": [
+        "/images/19.webp",
+        "/images/17.webp",
+        "/images/20.webp"
+      ],
+      "isNewArrival": false
+    },
+    {
+      "laptopId": 3,
+      "laptopSlug": "asus-rog-strix-g16",
+      "laptopName": "ASUS ROG Strix G16",
+      "shortDescription": "Intel i9 13th Gen | 32GB RAM | 1TB SSD | RTX 4070 | 16\" 240Hz",
+      "offerPrice": 221999,
+      "oldPrice": 265000,
+      "mainImage": "/images/21.webp",
+      "subImages": [
+        "/images/laptop-3-sub1.webp",
+        "/images/laptop-3-sub2.webp",
+        "/images/laptop-3-sub3.webp"
+      ],
+      "isNewArrival": true
+    },
+    {
+      "laptopId": 4,
+      "laptopSlug": "lenovo-ideapad-slim-3",
+      "laptopName": "Lenovo IdeaPad Slim 3",
+      "shortDescription": "AMD Ryzen 5 5500U | 8GB RAM | 512GB SSD | 15.6\" FHD",
+      "offerPrice": 169900,
+      "oldPrice": 215000,
+      "mainImage": "/images/20.webp",
+      "subImages": [
+        "/images/laptop-4-sub1.webp",
+        "/images/laptop-4-sub2.webp",
+        "/images/laptop-4-sub3.webp"
+      ],
+      "isNewArrival": false
+    },
+    {
+      "laptopId": 5,
+      "laptopSlug": "hp-probook-450",
+      "laptopName": "HP ProBook 450",
+      "shortDescription": "Intel i7 12th Gen | 16GB RAM | 512GB SSD | 15.6\" FHD",
+      "offerPrice": 221999,
+      "oldPrice": 265000,
+      "mainImage": "/images/23.webp",
+      "subImages": [
+        "/images/laptop-5-sub1.webp",
+        "/images/laptop-5-sub2.webp",
+        "/images/laptop-5-sub3.webp"
+      ],
+      "isNewArrival": false
+    },
+    {
+      "laptopId": 6,
+      "laptopSlug": "msi-katana-15",
+      "laptopName": "MSI Katana 15",
+      "shortDescription": "Intel i7 12th Gen | 16GB RAM | 512GB SSD | RTX 3050 | 15.6\" 144Hz",
+      "offerPrice": 221999,
+      "oldPrice": 265000,
+      "mainImage": "/images/24.webp",
+      "subImages": [
+        "/images/laptop-6-sub1.webp",
+        "/images/laptop-6-sub2.webp",
+        "/images/laptop-6-sub3.webp"
+      ],
+      "isNewArrival": false
+    },
+    {
+      "laptopId": 7,
+      "laptopSlug": "acer-aspire-5",
+      "laptopName": "Acer Aspire 5",
+      "shortDescription": "AMD Ryzen 7 5700U | 16GB RAM | 512GB SSD | 15.6\" FHD",
+      "offerPrice": 185900,
+      "oldPrice": 225000,
+      "mainImage": "/images/17.webp",
+      "subImages": [
+        "/images/laptop-7-sub1.webp",
+        "/images/laptop-7-sub2.webp",
+        "/images/laptop-7-sub3.webp"
+      ],
+      "isNewArrival": false
+    },
+    {
+      "laptopId": 8,
+      "laptopSlug": "asus-vivobook-14",
+      "laptopName": "ASUS VivoBook 14",
+      "shortDescription": "AMD Ryzen 5 5500U | 8GB RAM | 512GB SSD | 14\" FHD",
+      "offerPrice": 129900,
+      "oldPrice": 155000,
+      "mainImage": "/images/18.webp",
+      "subImages": [
+       
+      ],
+      "isNewArrival": true
+    },
+    {
+      "laptopId": 9,
+      "laptopSlug": "hp-pavilion-15",
+      "laptopName": "HP Pavilion 15",
+      "shortDescription": "Intel i5 11th Gen | 12GB RAM | 256GB SSD | 15.6\" FHD",
+      "offerPrice": 149900,
+      "oldPrice": 189000,
+      "mainImage": "/images/19.webp",
+      "subImages": [
+        "/images/laptop-9-sub1.webp",
+        "/images/laptop-9-sub2.webp",
+        "/images/laptop-9-sub3.webp"
+      ],
+      "isNewArrival": false
+    },
+    {
+      "laptopId": 10,
+      "laptopSlug": "dell-xps-13",
+      "laptopName": "Dell XPS 13",
+      "shortDescription": "Intel i7 12th Gen | 16GB RAM | 512GB SSD | 13.3\" OLED",
+      "offerPrice": 289900,
+      "oldPrice": 350000,
+      "mainImage": "/images/20.webp",
+      "subImages": [
+        "/images/laptop-10-sub1.webp",
+        "/images/laptop-10-sub2.webp",
+        "/images/laptop-10-sub3.webp"
+      ],
+      "isNewArrival": true
+    }
+  ]
+}

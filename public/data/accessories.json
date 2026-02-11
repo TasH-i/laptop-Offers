@@ -1,0 +1,150 @@
+{
+  "accessories": [
+    {
+      "accessoryId": 1,
+      "accessorySlug": "laptop-backpack",
+      "accessoryName": "Laptop Backpack",
+      "shortDescription": "15.6\" Water Resistant | Multiple Compartments | USB Charging Port",
+      "offerPrice": 3500,
+      "oldPrice": null,
+      "mainImage": "/images/22.webp",
+      "subImages": [
+        
+      ],
+      "isNewArrival": false
+    },
+    {
+      "accessoryId": 2,
+      "accessorySlug": "b100-usb-mouse-keyboard",
+      "accessoryName": "B100 USB Mouse & Keyboard",
+      "shortDescription": "RGB Backlight | Mechanical Keys | Ergonomic Design",
+      "offerPrice": 5999,
+      "oldPrice": 6000,
+      "mainImage": "/images/35.webp",
+      "subImages": [
+        
+      ],
+      "isNewArrival": false
+    },
+    {
+      "accessoryId": 3,
+      "accessorySlug": "1tb-external-hard-drive",
+      "accessoryName": "1TB External Hard Drive",
+      "shortDescription": "USB 3.0 | High Speed Transfer | Portable Design",
+      "offerPrice": 11999,
+      "oldPrice": 13000,
+      "mainImage": "/images/36.webp",
+      "subImages": [
+        "/images/accessory-3-sub1.webp",
+        "/images/accessory-3-sub2.webp",
+        "/images/accessory-3-sub3.webp"
+      ],
+      "isNewArrival": true
+    },
+    {
+      "accessoryId": 4,
+      "accessorySlug": "16gb-ddr4-laptop-ram",
+      "accessoryName": "16GB DDR4 Laptop RAM",
+      "shortDescription": "3200MHz | High Performance | Easy Installation",
+      "offerPrice": 16900,
+      "oldPrice": 20000,
+      "mainImage": "/images/37.webp",
+      "subImages": [
+        "/images/accessory-4-sub1.webp",
+        "/images/accessory-4-sub2.webp",
+        "/images/accessory-4-sub3.webp"
+      ],
+      "isNewArrival": false
+    },
+    {
+      "accessoryId": 5,
+      "accessorySlug": "dell-65w-laptop-charger",
+      "accessoryName": "Dell 65W Laptop Charger",
+      "shortDescription": "Fast Charging | Universal Compatibility | Safety Certified",
+      "offerPrice": 13999,
+      "oldPrice": 15000,
+      "mainImage": "/images/38.webp",
+      "subImages": [
+        "/images/accessory-5-sub1.webp",
+        "/images/accessory-5-sub2.webp",
+        "/images/accessory-5-sub3.webp"
+      ],
+      "isNewArrival": false
+    },
+    {
+      "accessoryId": 6,
+      "accessorySlug": "logitech-b100-usb-mouse",
+      "accessoryName": "Logitech B100 USB Mouse",
+      "shortDescription": "Optical Sensor | Ergonomic | Plug and Play",
+      "offerPrice": 1999,
+      "oldPrice": 2350,
+      "mainImage": "/images/39.webp",
+      "subImages": [
+        "/images/accessory-6-sub1.webp",
+        "/images/accessory-6-sub2.webp",
+        "/images/accessory-6-sub3.webp"
+      ],
+      "isNewArrival": false
+    },
+    {
+      "accessoryId": 7,
+      "accessorySlug": "laptop-cooling-pad",
+      "accessoryName": "Laptop Cooling Pad",
+      "shortDescription": "2 Fans | USB Powered | Portable",
+      "offerPrice": 4500,
+      "oldPrice": 5500,
+      "mainImage": "/images/40.webp",
+      "subImages": [
+        "/images/accessory-7-sub1.webp",
+        "/images/accessory-7-sub2.webp",
+        "/images/accessory-7-sub3.webp"
+      ],
+      "isNewArrival": false
+    },
+    {
+      "accessoryId": 8,
+      "accessorySlug": "hdmi-display-cable",
+      "accessoryName": "HDMI Display Cable",
+      "shortDescription": "4K Support | Gold Plated Connectors | 2 Meter",
+      "offerPrice": 2999,
+      "oldPrice": 3500,
+      "mainImage": "/images/36.webp",
+      "subImages": [
+        "/images/accessory-8-sub1.webp",
+        "/images/accessory-8-sub2.webp",
+        "/images/accessory-8-sub3.webp"
+      ],
+      "isNewArrival": false
+    },
+    {
+      "accessoryId": 9,
+      "accessorySlug": "512gb-ssd-upgrade",
+      "accessoryName": "512GB SSD Upgrade",
+      "shortDescription": "NVMe M.2 | Read 3500 MB/s | Fast Installation",
+      "offerPrice": 8999,
+      "oldPrice": 10000,
+      "mainImage": "/images/22.webp",
+      "subImages": [
+        "/images/accessory-9-sub1.webp",
+        "/images/accessory-9-sub2.webp",
+        "/images/accessory-9-sub3.webp"
+      ],
+      "isNewArrival": true
+    },
+    {
+      "accessoryId": 10,
+      "accessorySlug": "laptop-screen-protector",
+      "accessoryName": "Laptop Screen Protector",
+      "shortDescription": "Anti-Glare | Anti-Fingerprint | 15.6\" Universal",
+      "offerPrice": 1500,
+      "oldPrice": 2000,
+      "mainImage": "/images/35.webp",
+      "subImages": [
+        "/images/accessory-10-sub1.webp",
+        "/images/accessory-10-sub2.webp",
+        "/images/accessory-10-sub3.webp"
+      ],
+      "isNewArrival": false
+    }
+  ]
+}
