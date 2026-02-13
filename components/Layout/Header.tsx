@@ -1,12 +1,61 @@
 // components/Layout/Header.tsx
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Facebook, Twitter, Linkedin, Menu, X, ChevronDown } from 'lucide-react'
 import Image from 'next/image'
+import { useSession, signOut } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
+import Link from 'next/link'
 
 const Header = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
     const [mobileSearchOpen, setMobileSearchOpen] = useState(false)
+    const { data: session, status } = useSession()
+    const router = useRouter()
+
+    // Sign-out dropdown state
+    const [showSignOutDropdown, setShowSignOutDropdown] = useState(false)
+    const [mobileShowSignOut, setMobileShowSignOut] = useState(false)
+    const signOutRef = useRef<HTMLDivElement>(null)
+
+    // Scroll detection — show profile pic in sticky header when bottom nav scrolls away
+    const [showStickyProfile, setShowStickyProfile] = useState(false)
+    const bottomNavRef = useRef<HTMLElement>(null)
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (bottomNavRef.current) {
+                const rect = bottomNavRef.current.getBoundingClientRect()
+                // Show sticky profile when bottom nav is fully above viewport
+                setShowStickyProfile(rect.bottom < 0)
+            }
+        }
+        window.addEventListener('scroll', handleScroll, { passive: true })
+        return () => window.removeEventListener('scroll', handleScroll)
+    }, [])
+
+    // Close desktop dropdown on outside click
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (signOutRef.current && !signOutRef.current.contains(e.target as Node)) {
+                setShowSignOutDropdown(false)
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => document.removeEventListener('mousedown', handleClickOutside)
+    }, [])
+
+    const handleSignOut = async () => {
+        setShowSignOutDropdown(false)
+        setMobileShowSignOut(false)
+        setMobileMenuOpen(false)
+        toast.info('Signing you out...')
+        await signOut({ redirect: false })
+        toast.success('You have been signed out successfully.')
+        router.push('/')
+        router.refresh()
+    }
 
     return (
         <>
@@ -121,6 +170,33 @@ const Header = () => {
 
                             {/* Cart */}
                             <div className="flex items-center gap-3">
+                                {/* Sticky Profile Avatar — appears when scrolled past bottom nav */}
+                                {status === 'authenticated' && session && (
+                                    <Link
+                                        href="/account"
+                                        className={`transition-all duration-300 ease-in-out ${
+                                            showStickyProfile
+                                                ? 'w-12 h-12 opacity-100 scale-100'
+                                                : 'w-0 h-0 opacity-0 scale-50 overflow-hidden'
+                                        }`}
+                                    >
+                                        <div className="w-12 h-12 rounded-full border-2 border-gray-300 hover:border-brand-red flex items-center justify-center transition-colors relative overflow-hidden">
+                                            {session.user.image ? (
+                                                <Image
+                                                    src={session.user.image}
+                                                    alt={session.user.name || 'Profile'}
+                                                    fill
+                                                    className="object-cover rounded-full"
+                                                />
+                                            ) : (
+                                                <div className="w-full h-full bg-brand-red flex items-center justify-center text-white font-bold text-sm">
+                                                    {session.user.name?.charAt(0).toUpperCase() || 'U'}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </Link>
+                                )}
+
                                 <div className="relative">
                                     <button
                                         className="w-18 h-18 rounded-full border-2 border-gray-300 hover:border-gray-400 flex items-center justify-center transition-colors relative"
@@ -178,6 +254,38 @@ const Header = () => {
                                         height={18}
                                     />
                                 </button>
+
+                                {/* Profile Icon - Mobile/Tablet (always visible when logged in) */}
+                                {status === 'authenticated' && session ? (
+                                    <Link href="/account">
+                                        <div className="w-10 h-10 md:w-11 md:h-11 rounded-full border-2 border-gray-300 hover:border-brand-red flex items-center justify-center transition-colors relative overflow-hidden">
+                                            {session.user.image ? (
+                                                <Image
+                                                    src={session.user.image}
+                                                    alt={session.user.name || 'Profile'}
+                                                    fill
+                                                    className="object-cover rounded-full"
+                                                />
+                                            ) : (
+                                                <div className="w-full h-full bg-brand-red flex items-center justify-center text-white font-bold text-xs">
+                                                    {session.user.name?.charAt(0).toUpperCase() || 'U'}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </Link>
+                                ) : (
+                                    <Link
+                                        href="/login"
+                                        className="w-10 h-10 md:w-11 md:h-11 rounded-full border-2 border-gray-300 hover:border-brand-red flex items-center justify-center transition-colors"
+                                    >
+                                        <Image
+                                            src="/images/04.webp"
+                                            alt="Account"
+                                            width={18}
+                                            height={18}
+                                        />
+                                    </Link>
+                                )}
 
                                 {/* Cart Button */}
                                 <div className="relative">
@@ -347,19 +455,80 @@ const Header = () => {
 
                             {/* Account Actions */}
                             <div className="space-y-1 py-4 border-b border-gray-200">
-                                {/* Account / Sign In */}
-                                <a 
-                                    href="#account" 
-                                    className="flex items-center gap-3 py-3 px-4 text-sm font-semibold text-gray-700 hover:bg-gray-50 hover:text-brand-red rounded-lg transition-colors"
-                                >
-                                    <Image
-                                        src="/images/04.webp"
-                                        alt="Account"
-                                        width={16}
-                                        height={16}
-                                    />
-                                    <span>ACCOUNT / SIGN IN</span>
-                                </a>
+                                {/* ====== ENHANCED: Account / Sign In (Mobile) ====== */}
+                                {status === 'authenticated' && session ? (
+                                    <>
+                                        {/* Logged-in user info */}
+                                        <Link
+                                            href="/account"
+                                            onClick={() => setMobileMenuOpen(false)}
+                                            className="flex items-center gap-3 py-3 px-4 text-sm font-semibold text-gray-700 hover:bg-gray-50 hover:text-brand-red rounded-lg transition-colors"
+                                        >
+                                            {session.user.image ? (
+                                                <Image
+                                                    src={session.user.image}
+                                                    alt={session.user.name || 'Profile'}
+                                                    width={24}
+                                                    height={24}
+                                                    className="rounded-full border border-gray-300"
+                                                />
+                                            ) : (
+                                                <div className="w-6 h-6 rounded-full bg-brand-red flex items-center justify-center text-white font-bold text-[10px]">
+                                                    {session.user.name?.charAt(0).toUpperCase() || 'U'}
+                                                </div>
+                                            )}
+                                            <span>ACCOUNT</span>
+                                        </Link>
+
+                                        {/* Sign Out with confirmation */}
+                                        {!mobileShowSignOut ? (
+                                            <button
+                                                onClick={() => setMobileShowSignOut(true)}
+                                                className="flex items-center gap-3 py-3 px-4 text-sm font-semibold text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors w-full"
+                                            >
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                                                    <polyline points="16 17 21 12 16 7" />
+                                                    <line x1="21" y1="12" x2="9" y2="12" />
+                                                </svg>
+                                                <span>SIGN OUT</span>
+                                            </button>
+                                        ) : (
+                                            <div className="mx-4 my-2 p-4 bg-red-50 border border-red-200 rounded-xl">
+                                                <p className="text-sm text-gray-700 mb-3">Are you sure you want to sign out?</p>
+                                                <div className="flex gap-2">
+                                                    <button
+                                                        onClick={handleSignOut}
+                                                        className="flex-1 py-2 text-sm font-bold text-white bg-brand-red rounded-lg hover:bg-red-700 transition-colors"
+                                                    >
+                                                        Yes, Sign Out
+                                                    </button>
+                                                    <button
+                                                        onClick={() => setMobileShowSignOut(false)}
+                                                        className="flex-1 py-2 text-sm font-bold text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                                                    >
+                                                        Cancel
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </>
+                                ) : (
+                                    <Link
+                                        href="/login"
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        className="flex items-center gap-3 py-3 px-4 text-sm font-semibold text-gray-700 hover:bg-gray-50 hover:text-brand-red rounded-lg transition-colors"
+                                    >
+                                        <Image
+                                            src="/images/04.webp"
+                                            alt="Account"
+                                            width={16}
+                                            height={16}
+                                        />
+                                        <span>ACCOUNT / SIGN IN</span>
+                                    </Link>
+                                )}
+                                {/* ====== END ENHANCED ====== */}
 
                                 {/* Favorites */}
                                 <a 
@@ -480,7 +649,7 @@ const Header = () => {
             </section>
 
             {/* Bottom Navigation Header - Desktop Only */}
-            <section className="hidden lg:block bg-white lg:px-20">
+            <section ref={bottomNavRef} className="hidden lg:block bg-white lg:px-20">
                 <div className="container mx-auto">
                     <div className="flex items-center justify-between py-4">
                         {/* Left Side - All Categories Dropdown and Navigation */}
@@ -573,18 +742,91 @@ const Header = () => {
 
                         {/* Right Side - Account, Favorites, Compare */}
                         <div className="flex items-center gap-6">
-                            {/* Account / Sign In */}
-                            <a href="#account" className="flex items-center gap-2 text-xs font-semibold text-gray-700 hover:text-brand-red transition-colors">
-                                <Image
-                                    src="/images/04.webp"
-                                    alt="Account"
-                                    width={12}
-                                    height={12}
-                                />
-                                <span className="tracking-wide">ACCOUNT</span>
-                                <span className="text-gray-400">|</span>
-                                <span className="tracking-wide">SIGN IN</span>
-                            </a>
+                            {/* ====== ENHANCED: Account / Sign In (Desktop) ====== */}
+                            {status === 'authenticated' && session ? (
+                                <>
+                                    {/* ACCOUNT — shows profile pic, links to /account */}
+                                    <Link
+                                        href="/account"
+                                        className="flex items-center gap-2 text-xs font-semibold text-gray-700 hover:text-brand-red transition-colors"
+                                    >
+                                        {session.user.image ? (
+                                            <Image
+                                                src={session.user.image}
+                                                alt={session.user.name || 'Profile'}
+                                                width={28}
+                                                height={28}
+                                                className="rounded-full border-2 border-gray-300 object-cover"
+                                            />
+                                        ) : (
+                                            <div className="w-7 h-7 rounded-full bg-brand-red flex items-center justify-center text-white font-bold text-[11px]">
+                                                {session.user.name?.charAt(0).toUpperCase() || 'U'}
+                                            </div>
+                                        )}
+                                        <span className="tracking-wide">ACCOUNT</span>
+                                    </Link>
+
+                                    {/* SIGN OUT — with dropdown confirmation */}
+                                    <div className="relative" ref={signOutRef}>
+                                        <button
+                                            onClick={() => setShowSignOutDropdown(!showSignOutDropdown)}
+                                            className="flex items-center gap-1.5 text-xs font-semibold text-gray-700 hover:text-brand-red transition-colors"
+                                        >
+                                            <span className="text-gray-400">|</span>
+                                            <span className="tracking-wide">SIGN OUT</span>
+                                            <ChevronDown
+                                                size={10}
+                                                className={`transition-transform duration-200 ${showSignOutDropdown ? 'rotate-180' : ''}`}
+                                            />
+                                        </button>
+
+                                        {/* Sign Out Confirmation Dropdown */}
+                                        {showSignOutDropdown && (
+                                            <div className="absolute right-0 top-full mt-4 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 p-5 z-50">
+                                                {/* Arrow */}
+                                                <div className="absolute -top-2 right-6 w-4 h-4 bg-white border-l border-t border-gray-100 rotate-45" />
+
+                                                <p className="text-sm text-gray-700 font-medium mb-1">
+                                                    Sign out of your account?
+                                                </p>
+                                                <p className="text-xs text-gray-400 mb-4">
+                                                    You can always sign back in anytime.
+                                                </p>
+                                                <div className="flex gap-2">
+                                                    <button
+                                                        onClick={handleSignOut}
+                                                        className="flex-1 py-2.5 text-sm font-bold text-white bg-brand-red rounded-xl hover:bg-red-700 transition-colors"
+                                                    >
+                                                        Yes, Sign Out
+                                                    </button>
+                                                    <button
+                                                        onClick={() => setShowSignOutDropdown(false)}
+                                                        className="flex-1 py-2.5 text-sm font-bold text-gray-600 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors"
+                                                    >
+                                                        Cancel
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                </>
+                            ) : (
+                                <Link
+                                    href="/login"
+                                    className="flex items-center gap-2 text-xs font-semibold text-gray-700 hover:text-brand-red transition-colors"
+                                >
+                                    <Image
+                                        src="/images/04.webp"
+                                        alt="Account"
+                                        width={12}
+                                        height={12}
+                                    />
+                                    <span className="tracking-wide">ACCOUNT</span>
+                                    <span className="text-gray-400">|</span>
+                                    <span className="tracking-wide">SIGN IN</span>
+                                </Link>
+                            )}
+                            {/* ====== END ENHANCED ====== */}
 
                             {/* Favorites */}
                             <a href="#favorites" className="flex items-center gap-2 text-xs font-semibold text-gray-700 hover:text-brand-red transition-colors">

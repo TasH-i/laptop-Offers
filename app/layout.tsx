@@ -1,9 +1,13 @@
+// app/layout.tsx
+
 import type { Metadata } from "next";
 import { Inter_Tight, Poppins } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 import Header from "@/components/Layout/Header";
 import Footer from "@/components/Layout/Footer";
+import SessionProvider from "@/components/Auth/SessionProvider";
+import AuthGuard from "@/components/Auth/AuthGuard";
 
 const interTight = Inter_Tight({
   subsets: ["latin"],
@@ -35,10 +39,14 @@ export default function RootLayout({
           "antialiased",
         ].join(" ")}
       >
-        <Header />
-        {children}
-        <Footer />
-        <Toaster 
+        <SessionProvider>
+          <AuthGuard>
+            <Header />
+            {children}
+            <Footer />
+          </AuthGuard>
+        </SessionProvider>
+        <Toaster
           position="top-right"
           theme="light"
           richColors
