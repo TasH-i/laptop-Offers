@@ -4,10 +4,10 @@ import type { Metadata } from "next";
 import { Inter_Tight, Poppins } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
-import Header from "@/components/Layout/Header";
-import Footer from "@/components/Layout/Footer";
 import SessionProvider from "@/components/Auth/SessionProvider";
 import AuthGuard from "@/components/Auth/AuthGuard";
+import ClientLayout from "@/components/Layout/ClientLayout";
+import AdminDashboardButton from "@/components/ui/AdminDashboardButton";
 
 const interTight = Inter_Tight({
   subsets: ["latin"],
@@ -41,9 +41,10 @@ export default function RootLayout({
       >
         <SessionProvider>
           <AuthGuard>
-            <Header />
-            {children}
-            <Footer />
+            <ClientLayout>
+              {children}
+            </ClientLayout>
+            <AdminDashboardButton />
           </AuthGuard>
         </SessionProvider>
         <Toaster
