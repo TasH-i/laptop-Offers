@@ -1,4 +1,4 @@
-// app/admin/brands/page.tsx (UPDATED - Auto-scroll on Edit)
+// app/admin/categories/page.tsx
 
 'use client'
 
@@ -6,23 +6,23 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { toast } from 'sonner'
 import { Plus, Loader2, Search, X, ChevronDown, ChevronUp } from 'lucide-react'
 import Link from 'next/link'
-import BrandForm from '@/components/Admin/BrandForm'
-import BrandsList from '@/components/Admin/BrandsList'
+import CategoryForm from '@/components/Admin/CategoryForm'
+import CategoriesList from '@/components/Admin/CategoriesList'
 
-interface Brand {
+interface Category {
   _id: string
-  brandName: string
-  brandDescription: string
-  brandImage: string
+  categoryName: string
+  categoryDescription: string
+  categoryImage: string
   isActive: boolean
   createdAt: string
 }
 
-export default function AdminBrandsPage() {
-  const [brands, setBrands] = useState<Brand[]>([])
+export default function AdminCategoriesPage() {
+  const [categories, setCategories] = useState<Category[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
-  const [editingBrand, setEditingBrand] = useState<Brand | null>(null)
+  const [editingCategory, setEditingCategory] = useState<Category | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [showDownButton, setShowDownButton] = useState(false)
@@ -30,21 +30,21 @@ export default function AdminBrandsPage() {
   const [scrollContainerRef, setScrollContainerRef] = useState<HTMLDivElement | null>(null)
   const formSectionRef = React.useRef<HTMLDivElement>(null)
 
-  // Filter brands based on search query
-  const filteredBrands = useMemo(() => {
-    if (!searchQuery.trim()) return brands
+  // Filter categories based on search query
+  const filteredCategories = useMemo(() => {
+    if (!searchQuery.trim()) return categories
 
     const query = searchQuery.toLowerCase().trim()
-    return brands.filter(
-      (brand) =>
-        brand.brandName.toLowerCase().includes(query) ||
-        brand.brandDescription.toLowerCase().includes(query)
+    return categories.filter(
+      (category) =>
+        category.categoryName.toLowerCase().includes(query) ||
+        category.categoryDescription.toLowerCase().includes(query)
     )
-  }, [brands, searchQuery])
+  }, [categories, searchQuery])
 
-  // Fetch brands on mount
+  // Fetch categories on mount
   useEffect(() => {
-    fetchBrands()
+    fetchCategories()
   }, [])
 
   // Scroll to form when it's shown
@@ -89,33 +89,33 @@ export default function AdminBrandsPage() {
     }
   }, [scrollContainerRef])
 
-  const fetchBrands = async () => {
+  const fetchCategories = async () => {
     try {
       setIsLoading(true)
-      const response = await fetch('/api/admin/brands')
+      const response = await fetch('/api/admin/categories')
       const data = await response.json()
 
       if (response.ok) {
-        setBrands(data.brands)
+        setCategories(data.categories)
       } else {
-        toast.error(data.error || 'Failed to fetch brands')
+        toast.error(data.error || 'Failed to fetch categories')
       }
     } catch (error) {
-      console.error('Fetch brands error:', error)
-      toast.error('Failed to fetch brands. Please try again.')
+      console.error('Fetch categories error:', error)
+      toast.error('Failed to fetch categories. Please try again.')
     } finally {
       setIsLoading(false)
     }
   }
 
   const handleCreateSubmit = async (formData: {
-    brandName: string
-    brandDescription: string
-    brandImage: string
+    categoryName: string
+    categoryDescription: string
+    categoryImage: string
   }) => {
     setIsSubmitting(true)
     try {
-      const response = await fetch('/api/admin/brands', {
+      const response = await fetch('/api/admin/categories', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -124,30 +124,30 @@ export default function AdminBrandsPage() {
       const data = await response.json()
 
       if (response.ok) {
-        toast.success('Brand created successfully!')
-        setBrands((prev) => [data.brand, ...prev])
+        toast.success('Category created successfully!')
+        setCategories((prev) => [data.category, ...prev])
         setShowForm(false)
       } else {
-        toast.error(data.error || 'Failed to create brand')
+        toast.error(data.error || 'Failed to create category')
       }
     } catch (error) {
-      console.error('Create brand error:', error)
-      toast.error('Failed to create brand. Please try again.')
+      console.error('Create category error:', error)
+      toast.error('Failed to create category. Please try again.')
     } finally {
       setIsSubmitting(false)
     }
   }
 
   const handleEditSubmit = async (formData: {
-    brandName: string
-    brandDescription: string
-    brandImage: string
+    categoryName: string
+    categoryDescription: string
+    categoryImage: string
   }) => {
-    if (!editingBrand) return
+    if (!editingCategory) return
 
     setIsSubmitting(true)
     try {
-      const response = await fetch(`/api/admin/brands/${editingBrand._id}`, {
+      const response = await fetch(`/api/admin/categories/${editingCategory._id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -156,46 +156,46 @@ export default function AdminBrandsPage() {
       const data = await response.json()
 
       if (response.ok) {
-        toast.success('Brand updated successfully!')
-        setBrands((prev) =>
-          prev.map((b) => (b._id === editingBrand._id ? data.brand : b))
+        toast.success('Category updated successfully!')
+        setCategories((prev) =>
+          prev.map((c) => (c._id === editingCategory._id ? data.category : c))
         )
-        setEditingBrand(null)
+        setEditingCategory(null)
         setShowForm(false)
       } else {
-        toast.error(data.error || 'Failed to update brand')
+        toast.error(data.error || 'Failed to update category')
       }
     } catch (error) {
-      console.error('Update brand error:', error)
-      toast.error('Failed to update brand. Please try again.')
+      console.error('Update category error:', error)
+      toast.error('Failed to update category. Please try again.')
     } finally {
       setIsSubmitting(false)
     }
   }
 
-  const handleDelete = async (brandId: string) => {
+  const handleDelete = async (categoryId: string) => {
     try {
-      const response = await fetch(`/api/admin/brands/${brandId}`, {
+      const response = await fetch(`/api/admin/categories/${categoryId}`, {
         method: 'DELETE',
       })
 
       const data = await response.json()
 
       if (response.ok) {
-        toast.success('Brand deleted successfully!')
-        setBrands((prev) => prev.filter((b) => b._id !== brandId))
+        toast.success('Category deleted successfully!')
+        setCategories((prev) => prev.filter((c) => c._id !== categoryId))
       } else {
-        toast.error(data.error || 'Failed to delete brand')
+        toast.error(data.error || 'Failed to delete category')
       }
     } catch (error) {
-      console.error('Delete brand error:', error)
-      toast.error('Failed to delete brand. Please try again.')
+      console.error('Delete category error:', error)
+      toast.error('Failed to delete category. Please try again.')
     }
   }
 
   const handleCancel = () => {
     setShowForm(false)
-    setEditingBrand(null)
+    setEditingCategory(null)
   }
 
   const handleClearSearch = () => {
@@ -234,11 +234,11 @@ export default function AdminBrandsPage() {
                   Dashboard
                 </Link>
                 <span className="text-gray-300">/</span>
-                <span className="text-gray-700 font-medium">Brands</span>
+                <span className="text-gray-700 font-medium">Categories</span>
               </div>
-              <h1 className="text-4xl font-bold text-gray-900">Brands</h1>
+              <h1 className="text-4xl font-bold text-gray-900">Categories</h1>
               <p className="text-gray-600 text-lg mt-2">
-                Manage all brands in your store
+                Manage all product categories in your store
               </p>
             </div>
 
@@ -248,7 +248,7 @@ export default function AdminBrandsPage() {
                 className="flex items-center gap-2 px-7 py-3.5 bg-brand-red text-white text-base font-semibold rounded-xl hover:bg-red-700 transition-colors shadow-sm hover:shadow-md"
               >
                 <Plus size={20} />
-                Create Brand
+                Create Category
               </button>
             )}
           </div>
@@ -258,7 +258,7 @@ export default function AdminBrandsPage() {
             <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
             <input
               type="text"
-              placeholder="Search by brand name or description..."
+              placeholder="Search by category name or description..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-14 pr-12 py-3.5 text-base bg-white border border-gray-200 rounded-xl focus:outline-none focus:border-brand-red focus:ring-2 focus:ring-brand-red/10 transition-all"
@@ -276,7 +276,7 @@ export default function AdminBrandsPage() {
           {/* Results count */}
           {searchQuery && (
             <div className="text-sm text-gray-600">
-              Found <span className="font-semibold text-gray-900">{filteredBrands.length}</span> brand{filteredBrands.length !== 1 ? 's' : ''} matching "{searchQuery}"
+              Found <span className="font-semibold text-gray-900">{filteredCategories.length}</span> categor{filteredCategories.length !== 1 ? 'ies' : 'y'} matching "{searchQuery}"
             </div>
           )}
         </div>
@@ -293,40 +293,40 @@ export default function AdminBrandsPage() {
             <div ref={formSectionRef} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-10">
               <div className="mb-8">
                 <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                  {editingBrand ? 'Edit Brand' : 'Create New Brand'}
+                  {editingCategory ? 'Edit Category' : 'Create New Category'}
                 </h2>
                 <p className="text-gray-600 text-base">
-                  {editingBrand
-                    ? 'Update brand information and image'
-                    : 'Add a new brand to your store'}
+                  {editingCategory
+                    ? 'Update category information and image'
+                    : 'Add a new category to your store'}
                 </p>
               </div>
 
-              <BrandForm
+              <CategoryForm
                 initialData={
-                  editingBrand
+                  editingCategory
                     ? {
-                        id: editingBrand._id,
-                        brandName: editingBrand.brandName,
-                        brandDescription: editingBrand.brandDescription,
-                        brandImage: editingBrand.brandImage,
+                        id: editingCategory._id,
+                        categoryName: editingCategory.categoryName,
+                        categoryDescription: editingCategory.categoryDescription,
+                        categoryImage: editingCategory.categoryImage,
                       }
                     : undefined
                 }
-                onSubmit={editingBrand ? handleEditSubmit : handleCreateSubmit}
+                onSubmit={editingCategory ? handleEditSubmit : handleCreateSubmit}
                 onCancel={handleCancel}
                 isLoading={isSubmitting}
               />
             </div>
           )}
 
-          {/* Brands List Section */}
+          {/* Categories List Section */}
           <div className={showForm ? 'opacity-50 pointer-events-none' : ''}>
-            <BrandsList
-              brands={filteredBrands}
+            <CategoriesList
+              categories={filteredCategories}
               isLoading={isLoading}
-              onEdit={(brand) => {
-                setEditingBrand(brand)
+              onEdit={(category) => {
+                setEditingCategory(category)
                 setShowForm(true)
               }}
               onDelete={handleDelete}
@@ -339,7 +339,7 @@ export default function AdminBrandsPage() {
           <button
             onClick={handleScrollDown}
             className="fixed bottom-8 left-1/2 -translate-x-1/2 w-14 h-14 rounded-full bg-brand-red text-white shadow-lg hover:shadow-xl hover:bg-red-700 transition-all duration-300 flex items-center justify-center animate-bounce z-30"
-            title="Scroll down to see more brands"
+            title="Scroll down to see more categories"
           >
             <ChevronDown size={28} />
           </button>

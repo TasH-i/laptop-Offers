@@ -30,10 +30,10 @@ interface AdminSidebarProps {
 const navItems = [
   { label: 'Dashboard', href: '/admin', icon: LayoutDashboard },
   { label: 'Brands', href: '/admin/brands', icon: Tags },
+  { label: 'Laptop Categories', href: '/admin/categories', icon: Layers },
   { label: 'Products', href: '/admin/products', icon: Package },
   { label: 'Orders', href: '/admin/orders', icon: ShoppingCart },
   { label: 'Customers', href: '/admin/customers', icon: Users },
-  { label: 'Categories', href: '/admin/categories', icon: Layers },
   { label: 'Promotions', href: '/admin/promotions', icon: Megaphone },
   { label: 'Analytics', href: '/admin/analytics', icon: BarChart3 },
   { label: 'Settings', href: '/admin/settings', icon: Settings },
