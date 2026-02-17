@@ -66,7 +66,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             />
 
             {/* Main area */}
-            <div className={`flex-1 flex flex-col min-h-screen transition-all duration-300 ${sidebarCollapsed ? 'lg:ml-[72px]' : 'lg:ml-[260px]'}`}>
+            <div className={`flex-1 flex flex-col min-h-screen transition-all duration-300 ${sidebarCollapsed ? 'lg:ml-[102px]' : 'lg:ml-[320px]'}`}>
                 <AdminHeader
                     onMenuClick={() => setSidebarOpen(true)}
                     user={session!.user}
