@@ -136,7 +136,7 @@ const Header = () => {
                     {/* Desktop Layout */}
                     <div className="hidden lg:flex items-center justify-between gap-8">
                         {/* Logo */}
-                        <div className="shrink-0 h-10 w-52 relative">
+                        <div className="shrink-0 h-15 w-76 relative">
                             <a href="/">
                                 <Image
                                     src="/images/01.webp"

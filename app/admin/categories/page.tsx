@@ -234,11 +234,11 @@ export default function AdminCategoriesPage() {
                   Dashboard
                 </Link>
                 <span className="text-gray-300">/</span>
-                <span className="text-gray-700 font-medium">Categories</span>
+                <span className="text-gray-700 font-medium">Laptop Categories</span>
               </div>
-              <h1 className="text-4xl font-bold text-gray-900">Categories</h1>
+              <h1 className="text-4xl font-bold text-gray-900">Laptop Categories</h1>
               <p className="text-gray-600 text-lg mt-2">
-                Manage all product categories in your store
+                Manage all Laptop categories in your store
               </p>
             </div>
 

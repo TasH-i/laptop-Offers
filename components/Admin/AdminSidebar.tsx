@@ -18,7 +18,10 @@ import {
   ChevronLeft,
   X,
   Laptop,
+  Group,
+  Puzzle,
 } from 'lucide-react'
+import Image from 'next/image'
 
 interface AdminSidebarProps {
   isOpen: boolean
@@ -31,9 +34,9 @@ const navItems = [
   { label: 'Dashboard', href: '/admin', icon: LayoutDashboard },
   { label: 'Brands', href: '/admin/brands', icon: Tags },
   { label: 'Laptop Categories', href: '/admin/categories', icon: Layers },
-  { label: 'Products', href: '/admin/products', icon: Package },
+  { label: 'Accessories', href: '/admin/accessories', icon: Group },
+  { label: 'Components', href: '/admin/components', icon: Puzzle },
   { label: 'Orders', href: '/admin/orders', icon: ShoppingCart },
-  { label: 'Customers', href: '/admin/customers', icon: Users },
   { label: 'Promotions', href: '/admin/promotions', icon: Megaphone },
   { label: 'Analytics', href: '/admin/analytics', icon: BarChart3 },
   { label: 'Settings', href: '/admin/settings', icon: Settings },
@@ -55,15 +58,15 @@ export default function AdminSidebar({ isOpen, onClose, collapsed, onToggleColla
         <div className={`flex items-center h-[80px] border-b border-white/[0.06] shrink-0 ${collapsed ? 'justify-center px-3' : 'px-6'}`}>
           {collapsed ? (
             <div className="w-12 h-12 rounded-xl bg-brand-red flex items-center justify-center">
-              <Laptop size={24} className="text-white" />
+              <Image src="/images/20.webp" alt="Logo" width={28} height={28} className="text-white" />
             </div>
           ) : (
-            <Link href="/" className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl bg-brand-red flex items-center justify-center shrink-0">
-                <Laptop size={24} className="text-white" />
+            <Link href="/" className="flex items-center gap-3 ">
+              <div className="w-12 h-12 rounded-xl bg-brand- flex items-center justify-center shrink-0">
+                <Image src="/images/20.webp" alt="Logo" width={36} height={36} className="text-white" />
               </div>
               <div>
-                <p className="text-white font-bold text-[16px] leading-tight">LaptopOffers</p>
+                <Image src="/images/01.webp" alt="Logo" width={155} height={155} className="text-white mt-4" />
                 <p className="text-white/30 text-[12px] font-medium">Admin Panel</p>
               </div>
             </Link>
