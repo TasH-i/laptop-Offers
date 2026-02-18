@@ -156,8 +156,8 @@ export async function POST(request: NextRequest) {
       addresses: addresses
         ? addresses.filter((a: string) => a && a.trim()).map((a: string) => a.trim())
         : [],
-      birthday: birthday ? new Date(birthday) : null,
-      gender: gender || null,
+      birthday: birthday ? new Date(birthday) : undefined,
+      gender: gender || undefined,
       role: 'user',
       provider: 'credentials',
       isActive: true,

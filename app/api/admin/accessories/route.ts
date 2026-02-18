@@ -183,7 +183,7 @@ export async function POST(request: NextRequest) {
       category: category || null,
       description: description.trim(),
       offerPrice: parseFloat(offerPrice),
-      oldPrice: oldPrice ? parseFloat(oldPrice) : null,
+      oldPrice: oldPrice ? parseFloat(oldPrice) : undefined,
       mainImage: mainImage.trim(),
       subImages: subImages.filter((img: string) => img && img.trim()),
       isNewArrival: isNewArrival || false,

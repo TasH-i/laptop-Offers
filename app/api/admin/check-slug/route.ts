@@ -1,4 +1,4 @@
-// app/api/admin/check-slug/route.ts (FIXED - Properly Handle excludeId)
+// app/api/admin/check-slug/route.ts (FIXED - Only Implemented Entity Types)
 
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
@@ -15,7 +15,7 @@ import mongoose from 'mongoose'
  * Request body:
  * {
  *   slug: "example-slug",
- *   entityType: "accessory" | "brand" | "category" | "product" | "laptop" | "component",
+ *   entityType: "accessory" | "brand" | "category",
  *   excludeId?: "id-to-exclude" (optional, for edit mode)
  * }
  * 
@@ -29,17 +29,13 @@ import mongoose from 'mongoose'
  * }
  */
 
-type EntityType = 'accessory' | 'brand' | 'category' | 'product' | 'laptop' | 'component'
+type EntityType = 'accessory' | 'brand' | 'category'
 
 // Map of entity types to their models
 const entityModels: Record<EntityType, any> = {
   accessory: Accessory,
   brand: Brand,
   category: Category,
-  // Future models will be added here
-  // product: Product,
-  // laptop: Laptop,
-  // component: Component,
 }
 
 // Map of entity types to their slug field names
@@ -47,9 +43,6 @@ const slugFieldNames: Record<EntityType, string> = {
   accessory: 'slug',
   brand: 'brandName', // Brands use brandName as unique identifier
   category: 'categoryName', // Categories use categoryName as unique identifier
-  // product: 'slug',
-  // laptop: 'slug',
-  // component: 'slug',
 }
 
 // Map of entity types to their display names
@@ -57,9 +50,6 @@ const entityDisplayNames: Record<EntityType, string> = {
   accessory: 'Accessory',
   brand: 'Brand',
   category: 'Category',
-  // product: 'Product',
-  // laptop: 'Laptop',
-  // component: 'Component',
 }
 
 export async function POST(request: NextRequest) {
@@ -112,7 +102,7 @@ export async function POST(request: NextRequest) {
         ? 'Must be at least 2 characters' 
         : 'Invalid characters'
     } else {
-      // Accessories, products, laptops, components use slug format
+      // Accessories use slug format
       const slugRegex = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
       isValidFormat = slugRegex.test(slug.trim())
       formatMessage = 'Must be lowercase, alphanumeric with hyphens only'
@@ -184,18 +174,14 @@ export async function POST(request: NextRequest) {
       } else if (entityType === 'accessory') {
         conflictingName = existingItem.accessoryName
       }
-      // Add more entity types as they're created
     }
 
-    // Also check other entity types for slug conflicts (if using slug field)
+    // Check other entity types for slug conflicts (cross-entity check)
     let slugConflictEntity: EntityType | null = null
     let slugConflictName: string | null = null
 
-    if (entityType === 'accessory') {
-      // Check if this slug exists in any other entity type that might use slugs
-      // For now, we only have accessories using slug field
-      // In future, check products, laptops, components here
-    }
+    // Only accessories use the 'slug' field, so no cross-entity conflicts possible
+    // for brands/categories since they use their own unique fields
 
     return NextResponse.json(
       {

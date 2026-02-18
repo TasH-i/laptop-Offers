@@ -63,7 +63,7 @@ const AccessorySchema = new Schema<IAccessory>(
     oldPrice: {
       type: Number,
       min: [0, 'Old price must be a positive number'],
-      default: null,
+      default: undefined,
     },
     mainImage: {
       type: String,

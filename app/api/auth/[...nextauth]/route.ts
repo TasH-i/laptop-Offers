@@ -139,7 +139,7 @@ export const authOptions: NextAuthOptions = {
             const newUser = await UserModel.create({
               name: user.name,
               email: user.email!.toLowerCase(),
-              image: user.image,
+              image: user.image || undefined,
               googleId: account.providerAccountId,
               provider: 'google',
               role: isAdmin ? 'admin' : 'user',
