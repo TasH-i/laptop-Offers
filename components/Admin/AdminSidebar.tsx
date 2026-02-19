@@ -1,4 +1,4 @@
-// components/Admin/AdminSidebar.tsx (UPDATED)
+// components/Admin/AdminSidebar.tsx (UPDATED WITH COMPONENTS)
 
 'use client'
 
@@ -36,6 +36,7 @@ const navItems = [
   { label: 'Laptop Categories', href: '/admin/categories', icon: Layers },
   { label: 'Accessories', href: '/admin/accessories', icon: Group },
   { label: 'Components', href: '/admin/components', icon: Puzzle },
+  { label: 'Component Items', href: '/admin/component-items', icon: Package },
   { label: 'Orders', href: '/admin/orders', icon: ShoppingCart },
   { label: 'Promotions', href: '/admin/promotions', icon: Megaphone },
   { label: 'Analytics', href: '/admin/analytics', icon: BarChart3 },
